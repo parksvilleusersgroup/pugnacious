@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 
@@ -34,12 +34,12 @@ public class ThingScript : MonoBehaviour {
 	float yDelta(){
 		float yDelta = Input.GetAxis ("Vertical");
 		//Debug.Log ("current y is " + thing.transform.position.y);
-		if (thing.transform.position.y < baseY && yDelta > 0f && !isJumping) {
+		if (yDelta > 0f && !isJumping && thingOnGround()) {
 			return startJump ();
-		} else if (isJumping) {
+		} else {
 			return continueJump();
 		}
-		return 0f;
+		//return 0f;
 	}
 
 	float startJump(){
@@ -73,5 +73,10 @@ public class ThingScript : MonoBehaviour {
 		return Vector3.Distance (new Vector3 (a, 0f, 0f), new Vector3 (b, 0f, 0f));
 	}
 
+    bool thingOnGround(){
+        //TODO - proper collision detection for platforms
+        //for now, only let you jump if you are at the bottom of the stage
+        return thing.transform.position.y < baseY;
+    }
 
 }
