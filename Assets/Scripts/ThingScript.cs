@@ -7,6 +7,9 @@ public class ThingScript : MonoBehaviour {
 	public const float speed = 10.0f;
 	public const float jumpHeight = 3.0f;
 	public const float jumpTime = 0.2f;
+	public BoxCollider2D myCollider;
+	public BoxCollider2D myGroundCollider;
+	public Renderer myRenderer;
 	public Transform thing;
 
 	private float baseY;
@@ -14,8 +17,14 @@ public class ThingScript : MonoBehaviour {
 	public float startY;
 	public float endY;
 	private float startTime;
-	private float jumpDist;
+	//private float jumpDist;
 	private bool isJumping;
+
+	void Awake () {
+		myRenderer = this.GetComponent<Renderer>();
+		myCollider = myRenderer.GetComponents<BoxCollider2D>()[0];
+		myGroundCollider = myRenderer.GetComponents<BoxCollider2D>()[1];
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -44,7 +53,7 @@ public class ThingScript : MonoBehaviour {
 
 	float startJump(){
 		Debug.Log ("start jump");
-	    startTime = Time.time;
+		startTime = Time.time;
 		startY = thing.position.y;
 		endY = startY + jumpHeight;
 		//Debug.Log ("startY = " + startY + ", endY = " + endY);
@@ -73,10 +82,8 @@ public class ThingScript : MonoBehaviour {
 		return Vector3.Distance (new Vector3 (a, 0f, 0f), new Vector3 (b, 0f, 0f));
 	}
 
-    bool thingOnGround(){
-        //TODO - proper collision detection for platforms
-        //for now, only let you jump if you are at the bottom of the stage
-        return thing.transform.position.y < baseY;
-    }
+	bool thingOnGround(){
+		return myGroundCollider.IsTouchingLayers(LayerMask.GetMask("Ground"));
+	}
 
 }
