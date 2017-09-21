@@ -5,7 +5,7 @@ using System.Collections;
 public class ThingScript : MonoBehaviour {
 
 	public const float speed = 10.0f;
-	public const float jumpHeight = 3.0f;
+	public const float jumpHeight = 6.0f;
 	public const float jumpTime = 0.2f;
 	public BoxCollider2D myCollider;
 	public BoxCollider2D myGroundCollider;
